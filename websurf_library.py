@@ -7,17 +7,17 @@ from threading import Thread
 def newCross(win, pos=(0,0)):
     cross = visual.ShapeStim(
         win=win, name='fixationcross', vertices='cross',
-        size=(0.035, 0.035), ori=0.0, pos=pos,
-        lineWidth=1.0, colorSpace='rgb',  lineColor='white', fillColor='white',
+        size=(0.045, 0.045), ori=0.0, pos=pos,
+        lineWidth=1.0, colorSpace='rgb',  lineColor='black', fillColor='black',
         opacity=None, depth=0.0, interpolate=True)
     cross.draw()
     win.flip()
     #core.wait(45)
     core.wait(4)
 
-def newText(win, text, pos=(0, 0), color='black'):
+def newText(win, text, pos=(0, 0), color='black', height=0.045):
     return visual.TextStim(win=win, 
-        text=text, font='Arial', pos=pos, height=0.045, wrapWidth=None, ori=0.0, 
+        text=text, font='Arial', pos=pos, height=height, wrapWidth=None, ori=0.0, 
         color=color, colorSpace='rgb', opacity=None, languageStyle='LTR', depth=0.0)
 
 def newKey(keyList=None, maxWait=float('inf')):
@@ -81,7 +81,7 @@ def pressKey(keyList=None):
     return key, pressTime
 
 def showDelay(win, text, pos=(0,0), keyList=None):
-    inst = newText(win, text, pos=pos)
+    inst = newText(win, text, pos=pos, height= 0.07)
     inst.draw()
     win.flip()
     return pressKey(keyList=keyList)
@@ -125,8 +125,8 @@ class ProgressBar:
 def showOffer(win, cue, stay, skip, txt, keyList=['1','2']):
     img = newImage(win, image=cue, zoom=0.4, pos=(0, 0.65), size=(0.5, 0.8))
     countdown = newText(win, text=txt, pos=(0, 0.1))
-    staybutton = newImage(win, image=stay, zoom=0.1, pos=(-0.5, -0.45))
-    skipbutton = newImage(win, image=skip, zoom=0.1, pos=(0.5, -0.45))
+    staybutton = newImage(win, image=stay, zoom=0.25, pos=(-0.3, -0.45))
+    skipbutton = newImage(win, image=skip, zoom=0.25, pos=(0.3, -0.45))
     bar = visual.Rect(win=win, pos=(0, -0.05), size=(0.6, 0.1), lineColor='White', fillColor=None)
     img.draw()
     countdown.draw()
@@ -139,7 +139,7 @@ def showOffer(win, cue, stay, skip, txt, keyList=['1','2']):
 def showBar(win, cue, quit, txt, duration, keyList=['2']):
     #print(cue)
     img = newImage(win, image=cue, zoom=0.4, pos=(0, 0.65), size=(0.5, 0.8))
-    quitbutton = newImage(win, image=quit, zoom=0.1, pos=(0.5, -0.65))
+    quitbutton = newImage(win, image=quit, zoom=0.25, pos=(0.3, -0.45))
     countdown = newText(win, text=txt, pos=(0, 0.1))
     progress = ProgressBar(win, duration, keyList=keyList)
     while not progress.ended:

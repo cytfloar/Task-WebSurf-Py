@@ -22,7 +22,7 @@ def run():
     #####################Experiment Imformation####################
     psychopy.useVersion('2022.2.5')
     expName = 'WedSurf'  # from the Builder filename that created this script
-    expInfo = {'participant': '', 'group': '', 'session': '', 'TR': 1.000, 'volumes': 400, 'sync': '5',}
+    expInfo = {'participant': '', 'group': '', 'session': '', 'sync': '5', 'TR': 1.000, 'volumes': 400}
     MR_settings = {'TR': expInfo['TR'], 'volumes': expInfo['volumes'], 'sync':expInfo['sync'], 'skip':0}
     dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
     if dlg.OK == False:
@@ -43,11 +43,6 @@ def run():
         blendMode="avg")
     win.mouseVisible = False
 
-    duration = expInfo['volumes'] * expInfo['TR']
-    globalClock = core.Clock()
-    vol = launchScan(win, MR_settings, globalClock=globalClock, wait_msg='loading...')
-    event.waitKeys(keyList = ['5'])
-
     blockorder= f"{_thisDir}/blockorder.xlsx"               
     df = pd.read_excel(blockorder)
 
@@ -66,6 +61,10 @@ def run():
     showBar(win, c.PRACLOGO, c.QUIT, c.INSTD%(5), 5, keyList=['2', 'space'])
     chainInstructions(win, c.INSTH, c.INSTI, c.INSTJ)
 
+    duration = expInfo['volumes'] * expInfo['TR']
+    globalClock = core.Clock()
+    vol = launchScan(win, MR_settings, globalClock=globalClock, wait_msg='loading...')
+    event.waitKeys(keyList = ['5'])
 
     ###Save Data###################################################
     with open(f"{save_filename}.csv", 'w', newline='') as csvfile:
@@ -80,16 +79,18 @@ def run():
         ################################################################
         ###########REAL EXPERIMENT STARTS HERE##########################
         ################################################################
-        n_trial, blocknum = 0, 0
+        n_trial, blocknum, vidnum = 0, 0, 0
+        vidlist = list(range(1,63))
+        rand.shuffle(vidlist)
         basetime = core.getTime()
         ended = False
 
         for i in range(250): #on average 100 - 200 trials
+            vidnum += 1
             starttime = core.getTime() - basetime
             time = core.getTime() - basetime
             breaklist = [-1, 0, 480.0, 960.0, 1440.0, 999999.9]
             if round(time) >= breaklist[blocknum +1]: 
-                print(time, blocknum)
                 blocknum += 1
                 newCross(win)
 
@@ -112,7 +113,7 @@ def run():
 
                 if press[0][0] == '1' and pressquit == []:
                     decision = "Stay"
-                    ratings = showVideo(win, cue, c.VIDPATH%(row['Order'],row['Order'], n_trial))
+                    ratings = showVideo(win, cue, c.VIDPATH%(row['Order'],row['Order'], vidlist[vidnum-1]))
                     onsetclip = ratings[3] - basetime
                     offsetrating = core.getTime() - basetime
                     offsetclip = ratings[2] - basetime
