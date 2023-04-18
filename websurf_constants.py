@@ -11,11 +11,13 @@ Press any button to continue.
 INSTB = """
 REMINDERS: 
     
-1) Once you have pushed a button to stay or skip, DO NOT push another button until the rating bar has appeared 
+1) If you choose to stay, you can quit at any point after the countdown begins. To QUIT, push the button with your RING finger.  
+
+2) Otherwise, once you have pushed a button to stay or skip, DO NOT push another button until the rating bar has appeared 
  
-2) You may have to push the button for your video rating twice to advance 
+3) You may have to push the button for your video rating twice to advance 
  
-3) The numbers between galleries may randomly appear twice in the same location; in these cases, push the button twice to advance 
+4) The numbers between galleries may randomly appear twice in the same location; in these cases, push the button twice to advance 
  
             Press any button to continue. 
 """
