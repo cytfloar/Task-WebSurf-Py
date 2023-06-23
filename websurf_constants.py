@@ -11,7 +11,7 @@ Press any button to continue.
 INSTB = """
 REMINDERS: 
     
-1) If you choose to stay, you can quit at any point after the countdown begins. To QUIT, push the button with your RING finger.  
+1) If you choose to stay, you can quit at any point after the countdown begins. To QUIT, push the button with your POINTER finger.  
 
 2) Otherwise, once you have pushed a button to stay or skip, DO NOT push another button until the rating bar has appeared 
  
@@ -43,6 +43,8 @@ Press any button to begin the trials.
 """
 
 INSTJ = """Waiting for experimenter to push space bar..."""
+
+INSTK = """The task is now complete. Thank you for your participation!"""
 
 STAY = "/Users/cytfloar/Desktop/Labs/REPEAT_Lab/WebSurf_2023/CategorySymbols/StayButton.jpg"
 SKIP = "/Users/cytfloar/Desktop/Labs/REPEAT_Lab/WebSurf_2023/CategorySymbols/SkipButton.jpg"

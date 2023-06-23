@@ -13,7 +13,7 @@ def newCross(win, pos=(0,0)):
     cross.draw()
     win.flip()
     #core.wait(45)
-    core.wait(4)
+    core.wait(40)
 
 def newText(win, text, pos=(0, 0), color='black', height=0.045):
     return visual.TextStim(win=win, 
@@ -50,6 +50,11 @@ def newRatingscale(win, name, pos=(0, -0.5)):
         acceptKeys=['return'], showValue=True)
     return ratingscale
 
+def newEnd(win, text, pos=(0,0)):
+    endofexp = newText(win, text, pos=pos)
+    endofexp.draw()
+    win.flip()
+    core.wait(20)
 
 def newInstruction(win, text, pos=(0,0), keyList=None):
     inst = newText(win, text, pos=pos)

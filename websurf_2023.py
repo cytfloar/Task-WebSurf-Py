@@ -12,7 +12,7 @@ def run():
     import pandas as pd
     import psychopy
     from functools import partial
-    from psychopy import visual, core, data, logging, gui
+    from psychopy import visual, event, core, data, logging, gui
     from psychopy.hardware.emulator import launchScan
 
 
@@ -22,7 +22,7 @@ def run():
     #####################Experiment Imformation####################
     psychopy.useVersion('2022.2.5')
     expName = 'WedSurf'  # from the Builder filename that created this script
-    expInfo = {'participant': '', 'group': '', 'session': '', 'sync': '5', 'TR': 1.000, 'volumes': 400}
+    expInfo = {'participant': '', 'group': '', 'session': '', 'sync': '5', 'TR': 2.000, 'volumes': 3500}
     MR_settings = {'TR': expInfo['TR'], 'volumes': expInfo['volumes'], 'sync':expInfo['sync'], 'skip':0}
     dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
     if dlg.OK == False:
@@ -33,18 +33,18 @@ def run():
     #########################Saving Data File Info#################
 
     save_filename = f"{_thisDir}/data/{expInfo['participant']}_{expInfo['date']}"
-
     log_File = logging.LogFile(save_filename+'.log', level=logging.DEBUG)
     logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
 
     #########################Experiment Start######################
-    win = visual.Window([1470, 956],fullscr=True, winType='pyglet',
-        monitor="testMonitor", units="height", color="#808080", colorSpace='hex',
-        blendMode="avg")
-    win.mouseVisible = False
-
     blockorder= f"{_thisDir}/blockorder.xlsx"               
     df = pd.read_excel(blockorder)
+
+    win = visual.Window([1512, 982],fullscr=True, winType='pyglet',
+        monitor="testMonitor", units="height", color="#808080", colorSpace='hex',
+        blendMode="avg")
+    
+    win.mouseVisible = False
 
     ###Give instruction and two practice###########################
     chainInstructions(win, c.INSTA, c.INSTB, c.INSTC)
@@ -60,11 +60,6 @@ def run():
     showOffer(win, c.PRACLOGO, c.STAY, c.SKIP, c.INSTD%(5), keyList=['1'])
     showBar(win, c.PRACLOGO, c.QUIT, c.INSTD%(5), 5, keyList=['2', 'space'])
     chainInstructions(win, c.INSTH, c.INSTI, c.INSTJ)
-
-    duration = expInfo['volumes'] * expInfo['TR']
-    globalClock = core.Clock()
-    vol = launchScan(win, MR_settings, globalClock=globalClock, wait_msg='loading...')
-    event.waitKeys(keyList = ['5'])
 
     ###Save Data###################################################
     with open(f"{save_filename}.csv", 'w', newline='') as csvfile:
@@ -85,6 +80,11 @@ def run():
         basetime = core.getTime()
         ended = False
 
+        globalClock = core.Clock()
+        vol = launchScan(win, MR_settings, globalClock=globalClock)
+        duration = MR_settings['volumes'] * MR_settings['TR']
+
+        #for i in range(250): #on average 100 - 200 trials
         for i in range(250): #on average 100 - 200 trials
             vidnum += 1
             starttime = core.getTime() - basetime
@@ -156,11 +156,11 @@ def run():
                 quittime = core.getTime() - basetime
                 if quittime >= 2100.0: 
                     ended = True
+                    newEnd(win, c.INSTK)
                     break
 
             if ended == True:
                 break
-
     #cleanup
     win.close()
     core.quit()
